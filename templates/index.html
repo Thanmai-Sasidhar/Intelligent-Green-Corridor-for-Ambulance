@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Intelligent Green Corridor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <div><div class="eyebrow">EMERGENCY TRANSPORT INTELLIGENCE</div><h1>Intelligent Green Corridor</h1><p>Real-time ambulance routing & coordinated signal-priority simulation</p></div>
+  <span class="status"><i></i> LOCAL DEMO</span>
+</header>
+<main>
+  <section class="hero">
+    <div><span class="tag">PROJECT PROTOTYPE</span><h2>Move emergency vehicles with a smarter route.</h2>
+    <p>Track a simulated ambulance journey, adapt road costs, recalculate routes and preview safety-aware signal-priority requests.</p></div>
+    <div class="hero-stat"><strong id="activeCount">0</strong><span>Recorded journeys</span></div>
+  </section>
+  <section class="grid">
+    <article class="panel controls">
+      <div class="section-head"><div><span class="eyebrow">01 / DISPATCH</span><h3>Create journey</h3></div><span class="step">01</span></div>
+      <label>Ambulance ID<input id="ambulanceId" value="AMB-001"></label>
+      <div class="two">
+        <label>Origin<select id="origin"></select></label>
+        <label>Destination<select id="destination"></select></label>
+      </div>
+      <button id="createBtn" class="primary">Create ambulance journey <span>→</span></button>
+      <div class="divider"></div>
+      <div class="section-head"><div><span class="eyebrow">02 / TRAFFIC CONDITIONS</span><h3>Update road state</h3></div><span class="step">02</span></div>
+      <label>Directed road<select id="edgeSelect"></select></label>
+      <label>Traffic level<select id="traffic"><option>LOW</option><option>MEDIUM</option><option selected>HIGH</option></select></label>
+      <div class="two">
+        <button id="trafficBtn" class="secondary">Apply traffic</button>
+        <button id="blockBtn" class="warning">Toggle closure</button>
+      </div>
+      <p class="hint">Traffic changes update the selected road's cost. Closures make that edge unavailable to routing.</p>
+    </article>
+    <article class="panel map-panel">
+      <div class="section-head"><div><span class="eyebrow">03 / ROAD NETWORK</span><h3>Illustrative city graph</h3></div><span class="live-label"><i></i> LIVE SIMULATION STATE</span></div>
+      <div id="map" class="map"><svg id="networkSvg" viewBox="0 0 620 310" role="img" aria-label="Road network graph"></svg></div>
+      <div class="legend"><span><i class="dot node-dot"></i> Intersection</span><span><i class="line green"></i> Available road</span><span><i class="line red"></i> Closed road</span><span><i class="line blue"></i> Recommended route</span></div>
+      <div class="route-summary" id="routeSummary"><span>No journey selected</span><strong>—</strong></div>
+    </article>
+  </section>
+  <section class="grid lower">
+    <article class="panel">
+      <div class="section-head"><div><span class="eyebrow">04 / CORRIDOR MANAGEMENT</span><h3>Journey controls</h3></div></div>
+      <div class="button-stack">
+        <button id="recalcBtn" class="secondary" disabled>Recalculate route</button>
+        <button id="priorityBtn" class="secondary" disabled>Request signal priority</button>
+        <button id="completeBtn" class="warning" disabled>Complete journey</button>
+      </div>
+      <div id="corridor" class="corridor empty">Create a journey to view its ordered intersections and estimated arrival times.</div>
+      <div id="priorityResult"></div>
+    </article>
+    <article class="panel">
+      <div class="section-head"><div><span class="eyebrow">05 / AUDIT TRAIL</span><h3>Recent events</h3></div><button id="refreshBtn" class="text-button">Refresh ↻</button></div>
+      <div id="events" class="events"><p class="muted">No events yet.</p></div>
+    </article>
+  </section>
+  <section class="panel history-panel">
+    <div class="section-head"><div><span class="eyebrow">06 / MONITORING</span><h3>Recent journeys</h3></div><span class="muted">Stored locally in SQLite</span></div>
+    <div class="table-wrap"><table><thead><tr><th>Ambulance</th><th>Route</th><th>ETA</th><th>Status</th><th>Journey ID</th></tr></thead><tbody id="journeys"><tr><td colspan="5" class="muted">No journeys recorded.</td></tr></tbody></table></div>
+  </section>
+  <footer>Research prototype · Simulated signal control only · Not connected to public-road infrastructure</footer>
+</main>
+<div id="toast" class="toast" role="status"></div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body></html>
